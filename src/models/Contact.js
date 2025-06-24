@@ -15,6 +15,11 @@ const contactSchema = new Schema({
         required: true,
         unique: true,
         match: [/^\S+@\S+\.\S+$/, 'E-mail inválido']
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 }, {
     timestamps: true
