@@ -1,16 +1,17 @@
-require('dotenv').config();
-
-const express = require('express');
-const connectDatabase = require('./config/database');
+import { configDotenv } from 'dotenv';
+import express, { json } from 'express';
+import connectDatabase from './config/database.js';
 const app = express();
 const port = process.env.PORT;
-const contactRoutes = require('./routes/contactRoutes');
+import routes from './routes/index.js';
 
-app.use(express.json());
+configDotenv();
 
-connectDatabase();
+app.use(json());
 
-app.use('/api', contactRoutes);
+await connectDatabase();
+
+app.use('/api', routes);
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);

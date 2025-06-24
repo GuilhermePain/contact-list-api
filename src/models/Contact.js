@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const contactSchema = new mongoose.Schema({
+const contactSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -8,20 +8,17 @@ const contactSchema = new mongoose.Schema({
     phone: {
         type: String,
         required: true,
+        match: [/^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/, 'Telefone inválido']
     },
     email: {
         type: String,
         required: true,
-        unique: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now
+        unique: true,
+        match: [/^\S+@\S+\.\S+$/, 'E-mail inválido']
     }
+}, {
+    timestamps: true
 });
 
-module.exports = mongoose.model('Contact', contactSchema);
+const Contact = model('Contact', contactSchema);
+export default Contact;
