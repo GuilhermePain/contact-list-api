@@ -1,8 +1,18 @@
 import Contact from '../models/Contact.js';
+import User from '../models/User.js';
 
-const createContact = async (data) => {
+const createContact = async (userId, data) => {
     try {
-        const contact = new Contact(data);
+        const userExists = await User.findById(userId);
+
+        if (!userExists) {
+            throw new Error('Usuário não encontrado.');
+        }
+
+        const contact = new Contact({
+            ...data,
+            user: userId
+        });
 
         const savedContact = await contact.save();
 
@@ -11,13 +21,15 @@ const createContact = async (data) => {
             contactId: savedContact._id
         };
     } catch (error) {
-        throw new Error('Erro interno ao criar contato.');
+        console.log(error);
+
+        throw new Error('Erro ao criar contato.');
     }
 };
 
 const getAllContacts = async () => {
     try {
-        const contacts = await Contact.find().sort({ createdAt: -1 });
+        const contacts = await Contact.find().populate('user', 'name email').select('-__v -cretedAt -updatedAt').sort({ createdAt: -1 });
 
         return contacts;
     } catch (error) {

@@ -4,16 +4,30 @@ const createContact = async (req, res) => {
 
     const { name, phone, email } = req.body;
 
-    if (!name || !phone || !email) {
-        return res.status(400).json({ message: 'Nome, telefone e e-mail são obrigatórios.' });
+    if (!name) {
+        return res.status(400).json({ message: 'Nome é obrigatório.' });
+    }
+
+    if (!phone) {
+        return res.status(400).json({ message: 'Telefone é obrigatório.' });
+    }
+
+    if (!email) {
+        return res.status(400).json({ message: 'E-mail é obrigatório.' });
     }
 
     try {
-        const result = await contactService.createContact(req.body);
+        const user = req.user;
+        
+        const result = await contactService.createContact(user, req.body);
 
         return res.status(201).json(result);
 
     } catch (error) {
+        if (error.message === 'Usuário não encontrado.') {
+            return res.status(404).json({ message: error.message });
+        }
+
         return res.status(500).json({ message: 'Houve um erro interno ao tentar criar contato.' });
     }
 };

@@ -33,14 +33,9 @@ const findUserById = async (id) => {
 
 const findUserByEmail = async (email) => {
 
-    try {
-        const user = await User.findOne({ email });
+    const user = await User.findOne({ email });
 
-        return user;
-
-    } catch (error) {
-        throw new Error('Erro ao buscar usuário por email.');
-    }
+    return user;
 };
 
 const updateUser = async (id, data) => {
