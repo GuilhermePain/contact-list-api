@@ -1,6 +1,6 @@
 import { configDotenv } from 'dotenv';
 import express, { json } from 'express';
-import connectDatabase from './config/database.js';
+import connectDatabase from './config/database.config.js';
 const app = express();
 const port = process.env.PORT;
 import routes from './routes/index.js';

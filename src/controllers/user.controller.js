@@ -1,4 +1,4 @@
-import userService from '../services/userService.js';
+import userService from '../services/user.service.js';
 
 const createUser = async (req, res) => {
     const { name, email, password } = req.body;
@@ -18,12 +18,14 @@ const createUser = async (req, res) => {
         return res.status(201).json(result);
 
     } catch (error) {
-        return res.status(500).json({ message: 'Erro interno ao tentar criar usuário.' });
+        return res.status(error.statusCode || 500).json({
+            message: error.message || 'Ocorreu um erro interno ao tentar criar usuário.'
+        });
     }
 };
 
 const findUserById = async (req, res) => {
-    const userId = req.params.id;
+    const userId = req.user.id;
 
     try {
         const result = await userService.findUserById(userId);
@@ -31,16 +33,14 @@ const findUserById = async (req, res) => {
         return res.status(200).json(result);
 
     } catch (error) {
-        if (error.message === 'Usuário não encontrado.') {
-            return res.status(404).json({ message: error.message });
-        }
-
-        return res.status(500).json({ message: 'Houve um erro interno ao tentar atualizar usuário.' });
+        return res.status(error.statusCode || 500).json({
+            message: error.message || 'Ocorreu um erro interno ao tentar buscar usuário.'
+        });
     }
 };
 
 const updateUser = async (req, res) => {
-    const userId = req.params.id;
+    const userId = req.user.id;
     const data = req.body;
 
     try {
@@ -49,29 +49,22 @@ const updateUser = async (req, res) => {
         return res.status(200).json(result);
 
     } catch (error) {
-        if (error.message === 'Usuário não encontrado.') {
-            return res.status(404).json({ message: error.message });
-        }
-
-        return res.status(500).json({ message: 'Houve um erro interno ao tentar atualizar usuário.' });
+        return res.status(error.statusCode || 500).json({
+            message: error.message || 'Ocorreu um erro interno ao tentar atualizar usuário.'
+        });
     }
 };
 
 const deletedUser = async (req, res) => {
-
     try {
-
-        const userId = req.params.id;
-
+        const userId = req.user.id;
         const result = await userService.deleteUser(userId);
 
         return res.status(200).json(result);
     } catch (error) {
-        if (error.message === 'Usuário não encontrado.') {
-            return res.status(404).json({ message: error.message });
-        }
-
-        return res.status(500).json({ message: 'Houve um erro interno ao tentar deletar usuário.' });
+        return res.status(error.statusCode || 500).json({
+            message: error.message || 'Ocorreu um erro interno ao tentar deletar usuário.'
+        });
     }
 };
 

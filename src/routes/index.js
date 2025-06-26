@@ -1,7 +1,7 @@
 import express from 'express';
-import contactRoutes from './contactRoutes.js';
-import userRoutes from './userRoutes.js';
-import authRoutes from './authRoutes.js';
+import contactRoutes from './contact.routes.js';
+import userRoutes from './user.routes.js';
+import authRoutes from './auth.routes.js';
 
 const router = express.Router();
 
