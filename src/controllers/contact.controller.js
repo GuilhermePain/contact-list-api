@@ -17,9 +17,9 @@ const createContact = async (req, res) => {
     }
 
     try {
-        const user = req.user;
+        const userId = req.user.id;
 
-        const result = await contactService.createContact(user, req.body);
+        const result = await contactService.createContact(userId, req.body);
 
         return res.status(201).json(result);
 

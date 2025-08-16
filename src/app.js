@@ -4,10 +4,10 @@ import connectDatabase from './config/database.config.js';
 import routes from './routes/index.js';
 import cors from 'cors';
 
-const app = express();
-const port = process.env.PORT;
-
 configDotenv();
+
+const app = express();
+const port = process.env.PORT ?? 3000;
 
 app.use(cors({
   origin: process.env.ORIGIN_CLIENT_URL,

@@ -26,10 +26,9 @@ export const verifyAuth = async (req, res, next) => {
         }
 
         req.user = decoded;
-        
+
         next();
     } catch (error) {
-        console.error('Erro ao verificar token:', error.message);
         return res.status(401).json({ message: 'Token inválido.' });
     }
 };

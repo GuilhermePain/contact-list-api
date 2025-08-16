@@ -4,7 +4,8 @@ import bcrypt from 'bcrypt';
 const UserSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        match: [/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, 'Nome inválido']
     },
     email: {
         type: String,

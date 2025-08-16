@@ -1,4 +1,5 @@
 import userService from './user.service.js';
+import User from "../models/User.model.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { jwtConstants } from '../constants/jwt.constant.js'
@@ -32,6 +33,17 @@ const login = async ({ email, password }) => {
     };
 };
 
+const profile = async (userId) => {
+    const profile = await User.findById(userId).select('-password -__v -createdAt -updatedAt');
+
+    if (!profile) {
+        throw new Error('Perfil do usuário não encontrado.');
+    }
+
+    return profile;
+};
+
 export default {
     login,
+    profile
 };

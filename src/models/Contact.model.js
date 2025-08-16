@@ -3,7 +3,8 @@ import { Schema, model } from 'mongoose';
 const contactSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        match: [/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, 'Nome inválido']
     },
     phone: {
         type: String,

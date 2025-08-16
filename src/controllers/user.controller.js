@@ -1,19 +1,7 @@
 import userService from '../services/user.service.js';
 
 const createUser = async (req, res) => {
-    const { name, email, password } = req.body;
-
-    if (!name) {
-        return res.status(400).json({ message: 'Nome é obrigatório.' });
-    }
-
-    if (!email) {
-        return res.status(400).json({ message: 'E-mail é obrigatório.' });
-    }
-
-    if (!password) {
-        return res.status(400).json({ message: 'Senha é obrigatório.' });
-    }
+    const { email } = req.body;
 
     try {
         const existingUser = await userService.findUserByEmail(email);

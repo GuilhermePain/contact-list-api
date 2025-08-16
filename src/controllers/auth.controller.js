@@ -21,6 +21,22 @@ const login = async (req, res) => {
     }
 };
 
+const profile = async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        const result = await authService.profile(userId);
+
+        return res.status(200).json(result);
+
+    } catch (error) {
+        return res.status(error.statusCode || 500).json({
+            message: error.message || 'Ocorreu um erro interno ao tentar buscar perfil do usuário usuário.'
+        });
+    }
+};
+
 export default {
     login,
+    profile
 };
